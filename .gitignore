@@ -8,6 +8,9 @@
 # Ignore all .out files
 *.out
 
+# Ignore all ~ files from vim
+*~
+
 #ignore all files in any directory named out
 out/
 
