@@ -11,3 +11,11 @@
 #ignore all files in any directory named out
 out/
 
+#ignore all files in any directory named .idea
+.idea/
+
+#ignore all .class files
+*.class
+
+#ignore all .iml files
+*.iml
