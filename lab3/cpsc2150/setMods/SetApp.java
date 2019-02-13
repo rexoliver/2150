@@ -8,11 +8,8 @@ import java.util.Scanner;
 
 public class SetApp {
 
-    public static void main(String args[]){
-        setMenu();
-    }
+    public static void main(String args[]){ createMenu(); }
     public static ISet M1;
-
 
 
     /**
@@ -28,6 +25,23 @@ public class SetApp {
         System.out.println("1. Add a value to the set");
         System.out.println("2. Remove a value from the set");
         System.out.println("3. Quit.");
+    }
+
+
+
+
+    public static void createMenu() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1. Find the Union of Two Sets\n" +
+                "2. Find the intersection of Two Sets\n" +
+                "3. Find the difference of two sets\n" +
+                "4. Exit");
+        int input = scan.nextInt();
+        switch (input){
+            case 1:
+
+        }
+
     }
 
     /**

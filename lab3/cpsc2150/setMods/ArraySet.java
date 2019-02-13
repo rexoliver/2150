@@ -23,6 +23,10 @@ public class ArraySet implements ISet {
         size = 0;
     }
 
+    public int get(int val){
+        return arr[val];
+    }
+
     /**
      * @pre
      * [Integer array has been initialized with constructor] and

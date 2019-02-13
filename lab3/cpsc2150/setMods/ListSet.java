@@ -31,6 +31,10 @@ List<Integer> list = new ArrayList<Integer>();
      * [ArrayList unmodified] and [String initialized]
      * @return String with correctly formatted data of ArrayList for user
      */
+    public int get(int val){
+        return list.get(val);
+    }
+
     public String toString(){
         String s = "";
         s += list.get(0);

@@ -19,6 +19,44 @@ public interface ISet {
 
     /**
      * @pre
+     * @post
+     * @param unionWith
+     */
+    default void union(ISet unionWith){
+        for(int i = 0; i < max_size; i++)
+            if(!this.contains(unionWith.get(i)))
+                this.add(unionWith.get(i));
+    }
+
+    /**
+     * @pre
+     * @post
+     * @param diffWith ISet to find the difference from
+     */
+    default void difference(ISet diffWith){
+        for(int i = 0; i < max_size; i++)
+            if(this.contains(diffWith.get(i)))
+                for(int j = 0; j < max_size; j++)
+                    if(this.get(j) == diffWith.get(i))
+                        this.removePos(j);
+    }
+
+    /**
+     * @pre
+     * @post
+     * @param intWith
+     */
+    default void intersect(ISet intWith){
+        for(int i = 0; i < max_size; i++)
+            if(!this.contains(intWith.get(i)))
+                for(int j = 0; j < max_size; j++)
+                    if(this.get(j) == intWith.get(i))
+                        this.removePos(j);
+    }
+
+
+    /**
+     * @pre
      * [Data structure initialized with constructor]
      * @post
      * [Data structure contains same elements with a
@@ -57,4 +95,6 @@ public interface ISet {
      * @return int value of the size of the data structure
      */
     int getSize();
+
+    int get(int val);
 }
