@@ -8,6 +8,7 @@ public class ArraySet implements ISet {
     /**
      * @invariant 0 <= size <= max_size and
      * [Integer array contains exclusively int data types]
+     * @c
      */
 
     private Integer [] arr;
@@ -23,9 +24,6 @@ public class ArraySet implements ISet {
         size = 0;
     }
 
-    public int get(int val){
-        return arr[val];
-    }
 
     /**
      * @pre
@@ -64,7 +62,5 @@ public class ArraySet implements ISet {
         return false;
     }
 
-    public int getSize(){
-        return size;
-    }
+    public int getSize() {return size;}
 }

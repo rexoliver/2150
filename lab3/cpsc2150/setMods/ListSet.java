@@ -11,7 +11,8 @@ public class ListSet implements ISet {
     /**
  * @invariant 0 <= size <= max_size and
  * [ArrayList contains exclusively int data types]
- */
+ *
+     * */
 
 List<Integer> list = new ArrayList<Integer>();
 
@@ -31,9 +32,6 @@ List<Integer> list = new ArrayList<Integer>();
      * [ArrayList unmodified] and [String initialized]
      * @return String with correctly formatted data of ArrayList for user
      */
-    public int get(int val){
-        return list.get(val);
-    }
 
     public String toString(){
         String s = "";
