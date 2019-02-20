@@ -1,8 +1,8 @@
-default: setMods/SetApp.java setMods/ArraySet.java setMods/ListSet.java setMods/ISet.java
-	javac setMods/SetApp.java setMods/ArraySet.java setMods/ListSet.java setMods/ISet.java
+default: setMods/MultiSetApp.java setMods/ArraySet.java setMods/ListSet.java setMods/ISet.java
+	javac setMods/MultiSetApp.java setMods/ArraySet.java setMods/ListSet.java setMods/ISet.java
 
-run: setMods/SetApp.class setMods/ArraySet.class setMods/ListSet.class setMods/ISet.class
-	java setMods.SetApp
+run: setMods/MultiSetApp.class setMods/ArraySet.class setMods/ListSet.class setMods/ISet.class
+	java setMods.MultiSetApp
 
 clean:
 	rm -f setMods/*.class

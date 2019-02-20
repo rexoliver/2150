@@ -4,11 +4,12 @@ package connectX;
 * CPSC 2150 HW1
 * GameBoard.java
  */
-public class GameBoard {
+public class GameBoard implements IGameBoard {
 
     private char[][] board;
     private int board_height;
     private int board_width;
+    private int connect_what;
 
     /**
      * Constructor
@@ -16,10 +17,11 @@ public class GameBoard {
      * @post [A new GameBoard is initialized]
      * @invariant board_height > 0 and board_width > 0
      */
-    public GameBoard(){
+    public GameBoard(int r, int c, int to_win){
         // initialize the size of board
-        board_height = 6;
-        board_width = 7;
+        board_height = r;
+        board_width = c;
+        connect_what = to_win;
         // initialize the board to the correct size
         board = new char[board_height][board_width];
         // loop through entire board
@@ -101,32 +103,19 @@ public class GameBoard {
      * next to one another in the board]
      */
     public boolean checkHorizWin(int r, int c, char p){
-        // Each of these statements follows the same as the first does
-
-        // checks if the row and collumn are inside the box so
-        // that it does not do an integer overflow checking
-        // the space in the next step
-        // if all conditions are false, return false.
-        if(c + 3 < board_width)
-            // asks if the 4 things next to one another
-            // vertically are equal to
-            // the correct character, if yes, returns true,
-            // if not, tries the next case
-            if(board[r][c]==p && board[r][c+1]==p &&
-                    board[r][c+2] == p && board[r][c+3] == p)
-                return true;
-        if(c + 2 < board_width && c - 1 > -1)
-            if(board[r][c-1]==p && board[r][c]==p &&
-                    board[r][c+1]==p && board[r][c+2]==p)
-                return true;
-        if(c + 1 < board_width && c - 2 > -1)
-            if(board[r][c-2]==p && board[r][c-1]==p &&
-                    board[r][c]==p && board[r][c+1]==p)
-                return true;
-        if(c - 3 > -1)
-            if(board[r][c-2]==p && board[r][c-1]==p &&
-                    board[r][c]==p && board[r][c-3]==p)
-                return true;
+        int most_left = Math.max(0, c - (connect_what-1));
+        int most_right = Math.min(board_width-1, c + (connect_what-1));
+        boolean stand = true;
+        for(int i = most_left; i + connect_what - 1 <= most_right; i++)
+        {
+            for(int j = 0; j < connect_what; j++)
+            {
+                if(board[r][i+j] != p)
+                    stand = false;
+            }
+            if(stand == true) return true;
+            stand = true;
+        }
         return false;
     }
 
@@ -144,33 +133,13 @@ public class GameBoard {
      * next to one another in the board]
      */
     public boolean checkVertWin(int r, int c, char p){
-        // Each of these statements follows the same as the first does
-
-        // checks if the row and collumn are inside the box so
-        // that it does not do an integer overflow checking
-        // the space in the next step
-        // if all conditions are false, return false.
-        if(r + 3 < board_height)
-            // asks if the 4 things next to one another
-            // vertically are equal to
-            // the correct character, if yes, returns true,
-            // if not, tries the next case
-            if(board[r][c]==p && board[r+1][c]==p &&
-                    board[r+2][c] == p && board[r+3][c] == p )
-                return true;
-        if(r + 2 < board_height && r - 1 > -1)
-            if(board[r][c]==p && board[r+1][c]==p &&
-                    board[r+2][c] == p && board[r-1][c] == p )
-                return true;
-        if(r + 1 < board_height && r - 2 > -1)
-            if(board[r][c]==p && board[r+1][c]==p &&
-                    board[r-2][c] == p && board[r-1][c] == p )
-                return true;
-        if(r - 3 > -1)
-            if(board[r][c]==p && board[r-3][c]==p &&
-                    board[r-2][c] == p && board[r-1][c] == p )
-                return true;
-        return false;
+        if(r - connect_what > -1) {
+            for (int i = 0; i < connect_what; i++)
+                if(board[r - i][c] != p)
+                    return false;
+            return true;
+        }
+        else return false;
     }
 
     /**
@@ -187,51 +156,36 @@ public class GameBoard {
      * next to one another in the board]
      */
     public boolean checkDiagWin(int r, int c, char p){
-        // Each of these statements follows the same as the first does
+        int most_left = Math.max(0, c - (connect_what-1));
+        int most_right = Math.min(board_width-1, c + (connect_what-1));
+        int most_up = Math.min(board_height-1, r + (connect_what-1));
+        int most_down = Math.max(0, r - (connect_what-1));
+        boolean stand = true;
 
-        // checks if the row and collumn are inside the box so
-        // that it does not do an integer overflow checking
-        // the space in the next step
-        // if all conditions are false, return false.
-        if (c + 3 < board_width && r + 3 < board_height)
-            // asks if the 4 things next to one another
-            // diagonally are equal to
-            // the correct character, if yes, returns true,
-            // if not, tries the next case
-            if (board[r][c] == p && board[r + 1][c + 1] == p &&
-                    board[r + 2][c + 2] == p && board[r + 3][c + 3] == p)
+        int b = most_down;
+        for(int i = most_left; i + connect_what - 1 <= most_right &&
+                b + connect_what - 1 <= most_up; i++)
+        {
+            for(int j = 0; j < connect_what; j++)
+                if(board[b+j][i+j] != p)
+                    stand = false;
+            if(stand)
                 return true;
-        if (c + 2 < board_width && c - 1 > -1 && r + 2 < board_height
-                && r - 1 > -1)
-            if (board[r - 1][c - 1] == p && board[r][c] == p &&
-                    board[r + 1][c + 1] == p && board[r + 2][c + 2] == p)
+            stand = true;
+            b++;
+        }
+        b = most_up;
+        for(int i = most_left; i + connect_what - 1 <= most_right &&
+                b - (connect_what - 1) >= 0; i++)
+        {
+            for(int j = 0; j < connect_what; j++)
+                if(board[b-j][i+j] != p)
+                    stand = false;
+            if(stand)
                 return true;
-        if (c + 1 < board_width && c - 2 > -1 && r + 1 < board_height
-                && r - 2 > -1)
-            if (board[r][c] == p && board[r + 1][c + 1] == p &&
-                    board[r - 2][c - 2] == p && board[r - 1][c - 1] == p)
-                return true;
-        if (c - 3 > -1 && r - 3 > -1)
-            if (board[r][c] == p && board[r - 3][c - 3] == p &&
-                    board[r - 2][c - 2] == p && board[r - 1][c - 1] == p)
-                return true;
-
-        if (c + 3 < board_width && r > 2 )
-            if(board[r][c] == p && board[r-1][c+1] == p &&
-                    board[r-2][c +2] == p && board[r-3][c+3]==p)
-                return true;
-        if(c + 2 < board_width && c > 0 && r > 1 && r < 5)
-            if(board[r][c] == p && board[r-1][c+1] == p &&
-                    board[r-2][c+2]==p && board[r+1][c-1]==p)
-                return true;
-        if(c + 1 < board_width && c > 1 && r >0 && r < 4)
-            if(board[r][c]==p && board[r-1][c+1] == p &&
-                    board[r+1][c-1]==p && board[r+2][c-2]==p)
-                return true;
-        if(c > 2 && r < 3)
-            if(board[r][c]==p && board[r+1][c-1] == p &&
-                    board[r+2][c-2]==p && board[r+3][c-3] == p)
-                return true;
+            stand = true;
+            b--;
+        }
         return false;
     }
 
@@ -253,7 +207,10 @@ public class GameBoard {
      */
     public String toString(){
         // Prints top of board
-        String s = "|0|1|2|3|4|5|6|\n";
+        String s = "";
+        for(int i = 0; i < board_width; i++)
+            s += "|" + i;
+        s += "|\n";
         // Loops through array in reverse order
         for(int i = board_height-1; i > -1; i--) {
             // adds structure of board to string
@@ -280,5 +237,17 @@ public class GameBoard {
             if(board[board_height-1][i] == ' ')
                 return false;
         return true;
+    }
+
+    public int getNumRows(){
+        return board_height;
+    }
+
+    public int getNumColumns(){
+        return board_width;
+    }
+
+    public int getNumToWin(){
+        return connect_what;
     }
 }

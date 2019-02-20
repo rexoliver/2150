@@ -2,14 +2,12 @@ package connectX;
 import java.util.Scanner;
 /*
 * Rex Oliver
-* CPSC 2150 HW1
+* CPSC 2150 HW2
 * Connect4Game.java
  */
 public class Connect4Game {
     public static void main(String [] args)
     {
-        // Create new Gameboard object
-        GameBoard G = new GameBoard();
         // create new scanner object to scan items
         Scanner scan = new Scanner(System.in);
         // create bool to play again or not
@@ -17,7 +15,41 @@ public class Connect4Game {
         // initialize input to something not valid
         int input = -1;
         // while loop that controls whether or not to play a new game
+
         while(play_again){
+            System.out.println("How many rows should be on the board?");
+            int r = scan.nextInt();
+            while(r > 100 ||  r < 3) {
+                if (r > 100)
+                    System.out.println("Can have at most 100 rows");
+                else if (r < 3)
+                    System.out.println("Must have at least 3 rows");
+                System.out.println("How many rows should be on the board?");
+                r = scan.nextInt();
+            }
+            System.out.println("How many columns should be on the board?");
+            int c = scan.nextInt();
+            while(c > 100 || c  < 3) {
+                if (c > 100)
+                    System.out.println("Can have at most 100 columns");
+                else if (c < 3)
+                    System.out.println("Must have at least 3 columns");
+                System.out.println("How many columns should be on the board?");
+                c = scan.nextInt();
+            }
+            System.out.println("How many in a row to win?");
+            int to_win = scan.nextInt();
+            while(to_win > 25 || to_win < 3) {
+                if (to_win > 25)
+                    System.out.println("Can have at most 25 in a row to win");
+                else if (to_win < 3)
+                    System.out.println("Must have at least 3 in a row to win");
+                System.out.println("How many in a row to win?");
+                to_win = scan.nextInt();
+            }
+
+            // Create new Gameboard object
+            IGameBoard G = new GameBoard(r,c,to_win);
             // used to switch players
             char letters[] = {'O', 'X'};
             // print board
@@ -32,10 +64,10 @@ public class Connect4Game {
                         ", what column do you want to place your marker in?");
                 input = scan.nextInt();
                 // while loop that handles incorrect inputs
-                while(input > 6 || input < 0 || !G.checkIfFree(input)) {
+                while(input >= G.getNumColumns() || input < 0 || !G.checkIfFree(input)) {
                     if (input < 0)
                         System.out.println("Column cannot be less than 0");
-                    else if (input > 6)
+                    else if (input > G.getNumColumns())
                         System.out.println("Column cannot be greater than 6");
                     // if collumn full
                     else if (!G.checkIfFree(input))
@@ -70,8 +102,6 @@ public class Connect4Game {
             // if player does not want to play again, exit.
             if(cinput.equals("n"))
                 play_again = false;
-            // otherwise, create new gameboard to clear old one.
-            else G = new GameBoard();
         }
     }
 }
