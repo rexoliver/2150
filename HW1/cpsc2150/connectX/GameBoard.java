@@ -133,7 +133,7 @@ public class GameBoard implements IGameBoard {
      * next to one another in the board]
      */
     public boolean checkVertWin(int r, int c, char p){
-        if(r - connect_what > -1) {
+        if(r - (connect_what - 1) > -1) {
             for (int i = 0; i < connect_what; i++)
                 if(board[r - i][c] != p)
                     return false;

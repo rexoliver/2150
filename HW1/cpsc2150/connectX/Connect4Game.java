@@ -67,8 +67,8 @@ public class Connect4Game {
                 while(input >= G.getNumColumns() || input < 0 || !G.checkIfFree(input)) {
                     if (input < 0)
                         System.out.println("Column cannot be less than 0");
-                    else if (input > G.getNumColumns())
-                        System.out.println("Column cannot be greater than 6");
+                    else if (input >= G.getNumColumns())
+                        System.out.println("Column cannot be greater than " + G.getNumColumns());
                     // if collumn full
                     else if (!G.checkIfFree(input))
                         System.out.println("Column is full");
