@@ -17,6 +17,7 @@ public class Connect4Game {
         // while loop that controls whether or not to play a new game
 
         while(play_again){
+            // Asks How many Rows should be on the board
             System.out.println("How many rows should be on the board?");
             int r = scan.nextInt();
             while(r > 100 ||  r < 3) {
@@ -48,7 +49,7 @@ public class Connect4Game {
                 to_win = scan.nextInt();
             }
 
-            // Create new Gameboard object
+            // Create new interface as a Gameboard object
             IGameBoard G = new GameBoard(r,c,to_win);
             // used to switch players
             char letters[] = {'O', 'X'};
